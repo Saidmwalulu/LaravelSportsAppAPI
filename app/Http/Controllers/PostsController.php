@@ -53,21 +53,24 @@ class PostsController extends Controller
 
     public function deletePost(Request $request) {
         $post = Post::find($request->id);
-        if (Auth::user()->id != $post->user_id) {
+
+         if (Auth::user()->id == $post->user_id || Auth::user()->role == 2) {
+            $destination = '/uploads/posts/'.$post->photo;
+            if (File::exists($destination)) {
+                File::delete($destination);
+            }
+            $post->delete();
             return response()->json([
-                'success' => false,
-                'message' => "can't delete this post"
+                'success' => true,
+                'message' => 'post deleted'
             ]);
+
         }
-        $destination = '/uploads/posts/'.$post->photo;
-        if (File::exists($destination)) {
-            File::delete($destination);
-        }
-        $post->delete();
         return response()->json([
-            'success' => true,
-            'message' => 'post deleted'
+            'success' => false,
+            'message' => "can't delete this post"
         ]);
+
     }
 
     public function getPosts() {

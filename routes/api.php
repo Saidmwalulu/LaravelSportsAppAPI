@@ -29,7 +29,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
-Route::get('all-users', [AuthController::class, 'getUsers'])->middleware('jwtAuth','isSuperAdmin'); 
+Route::get('all-users', [AuthController::class, 'getUsers'])->middleware('jwtAuth','isSuperAdmin');
 Route::post('update-users', [AuthController::class, 'updateUsers'])->middleware('jwtAuth','isSuperAdmin');
 
 //Authentication
@@ -40,9 +40,9 @@ Route::post('change-password', [AuthController::class, 'changePassword'])->middl
 Route::post('logout', [AuthController::class, 'logout'])->middleware('jwtAuth');
 
 //user post is one to many
-Route::post('posts/create', [PostsController::class, 'createPost'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
-Route::post('posts/update', [PostsController::class, 'updatePost'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
-Route::post('posts/delete', [PostsController::class, 'deletePost'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
+Route::post('posts/create', [PostsController::class, 'createPost'])->middleware('jwtAuth','isAdmin');
+Route::post('posts/update', [PostsController::class, 'updatePost'])->middleware('jwtAuth','isAdmin');
+Route::post('posts/delete', [PostsController::class, 'deletePost'])->middleware('jwtAuth','isAdmin');
 Route::get('posts', [PostsController::class, 'getPosts'])->middleware('jwtAuth');
 
 //user likes is one to many
@@ -51,19 +51,19 @@ Route::post('posts/like', [LikesController::class, 'likePost'])->middleware('jwt
 //user comments is one to many
 Route::post('comments/create', [CommentsController::class, 'createComment'])->middleware('jwtAuth');
 Route::post('comments/update', [CommentsController::class, 'updateComment'])->middleware('jwtAuth');
-Route::post('comments/delete', [CommentsController::class, 'deleteComment'])->middleware('jwtAuth');
+Route::post('comments/delete', [CommentsController::class, 'deleteComment'])->middleware('jwtAuth','isSuperAdmin');
 Route::post('comments', [CommentsController::class, 'getComments'])->middleware('jwtAuth');
 
 //user videos is one to many
-Route::post('videos/create', [VideoController::class, 'createVideo'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
+Route::post('videos/create', [VideoController::class, 'createVideo'])->middleware('jwtAuth','isAdmin');
 Route::get('videos', [VideoController::class, 'getVideos'])->middleware('jwtAuth');
-Route::post('videos/edit', [VideoController::class, 'editVideo'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
-Route::post('videos/delete', [VideoController::class, 'deleteVideo'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
+Route::post('videos/edit', [VideoController::class, 'editVideo'])->middleware('jwtAuth','isAdmin');
+Route::post('videos/delete', [VideoController::class, 'deleteVideo'])->middleware('jwtAuth','isAdmin');
 
 //user fixtures is one to many
-Route::post('fixtures/create', [FixtureController::class, 'createFixture'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
+Route::post('fixtures/create', [FixtureController::class, 'createFixture'])->middleware('jwtAuth','isAdmin');
 Route::get('fixtures', [FixtureController::class, 'getFixtures'])->middleware('jwtAuth');
-Route::post('fixtures/edit', [FixtureController::class, 'editFixture'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
-Route::post('fixtures/delete', [FixtureController::class, 'deleteFixture'])->middleware('jwtAuth','isAdmin','isSuperAdmin');
+Route::post('fixtures/edit', [FixtureController::class, 'editFixture'])->middleware('jwtAuth','isAdmin');
+Route::post('fixtures/delete', [FixtureController::class, 'deleteFixture'])->middleware('jwtAuth','isAdmin');
 
 

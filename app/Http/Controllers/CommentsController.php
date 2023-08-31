@@ -42,17 +42,20 @@ class CommentsController extends Controller
 
     public function deleteComment(Request $request) {
         $comment = Comment::find($request->id);
-        if ($comment->user_id != Auth::user()->id) {
+
+        if (Auth::user()->id == $comment->user_id || Auth::user()->role == 2) {
+            
+            $comment->comment = $request->comment;
+            $comment->delete();
             return response()->json([
-                'success' => false,
-                'message' => "can't delete comment"
+                'success' => true,
+                'message' => 'comment deleted'
             ]);
         }
-        $comment->comment = $request->comment;
-        $comment->delete();
+
         return response()->json([
-            'success' => true,
-            'message' => 'comment deleted'
+            'success' => false,
+            'message' => "can't delete comment"
         ]);
     }
 

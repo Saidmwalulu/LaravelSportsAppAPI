@@ -20,7 +20,7 @@ class AdminMiddleware
         if ($user) {
             //admin role == 1
             //user role == 0
-            if ($user->role == '1') {
+            if ($user->role == '1' || $user->role == '2') {
 
                 return $next($request);
 
