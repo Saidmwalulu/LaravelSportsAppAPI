@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class FixtureController extends Controller
 {
@@ -92,18 +93,25 @@ class FixtureController extends Controller
     public function deleteFixture(Request $request) {
         $fixture = Fixture::find($request->id);
 
-        if (Auth::user()->id != $fixture->user_id) {
+        if (Auth::user()->id == $fixture->user_id) {
+            $destination = public_path().'/uploads/logos/'.$fixture->sponsor_logo;
+            if (File::exists($destination)) {
+                File::delete($destination);
+            }
+
+            $fixture->delete();
+
             return response()->json([
-                'success' => false,
-                'message' => "can't delete"
+                'success' => true,
+                'message' => 'fixture deleted'
             ]);
+
         }
 
-        $fixture->delete();
-
         return response()->json([
-            'success' => true,
-            'message' => 'fixture deleted'
+            'success' => false,
+            'message' => "can't delete"
         ]);
+
     }
 }

@@ -55,7 +55,7 @@ class PostsController extends Controller
         $post = Post::find($request->id);
 
          if (Auth::user()->id == $post->user_id || Auth::user()->role == 2) {
-            $destination = '/uploads/posts/'.$post->photo;
+            $destination = public_path().'/uploads/posts/'.$post->photo;
             if (File::exists($destination)) {
                 File::delete($destination);
             }
